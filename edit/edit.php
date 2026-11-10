@@ -1,41 +1,21 @@
 <?php
 $id = $_POST['id'];
-$kecamatan = $_POST['kecamatan'];
-$longitude = $_POST['longitude'];
+$nama_stasiun = $_POST['nama_stasiun'];
+$jenis = $_POST['jenis'];
+$status = $_POST['status'];
 $latitude = $_POST['latitude'];
-$luas = $_POST['luas'];
-$jumlah_penduduk = $_POST['jumlah_penduduk'];
+$longitude = $_POST['longitude'];
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "tabel_penduduk";
+$conn = new mysqli("localhost", "root", "", "geoportal_bogor");
+if ($conn->connect_error) die("Koneksi gagal: " . $conn->connect_error);
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Query untuk memperbarui data
-$sql = "UPDATE data_kecamatan SET 
-        kecamatan='$kecamatan', 
-        longitude=$longitude, 
-        latitude=$latitude, 
-        luas=$luas, 
-        jumlah_penduduk=$jumlah_penduduk 
+$sql = "UPDATE stasiun_bogor 
+        SET nama_stasiun='$nama_stasiun', jenis='$jenis', status='$status', latitude='$latitude', longitude='$longitude' 
         WHERE id=$id";
 
-if ($conn->query($sql) === TRUE) {
-    echo "Record edited successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
-
+$conn->query($sql);
 $conn->close();
-// Mengarahkan kembali ke halaman utama (naik 1 level folder karena saat ini ada di folder edit)
+
 header("Location: ../index.php");
 exit;
 ?>
